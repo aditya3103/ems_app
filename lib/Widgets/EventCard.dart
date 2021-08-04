@@ -7,32 +7,59 @@ import 'package:ems_bphc/main.dart';
 class EventCard extends StatelessWidget {
   // const EventCard({Key? key}) : super(key: key);
 
-  String eventName = 'Event Name';
-  String clubName = 'phoenix';
-  String chipLabel;
-  String posterUrl;
-  List<String> eventsDetails = ['one line', 'date', 'time', 'location', 'desc'];
+  //late String oneline;
+  //late List<String> topics;
+  // late String description;
+  //  late int duration;
+  //  late bool registerationRequired;
+  //  late int seatLimit;
+
+  String type = 'COMPETITION';
+  List<String> topics = ['topic1', 'topic2', 'topic3'];
+  String name = 'Event Name';
+  String organiser = 'phoenix';
+  String description = 'Event Description';
+  String oneline = 'One line about the event';
+  DateTime eventDatetime = DateTime.now();
+  int duration = 100;
+  bool registerationRequired = false;
+  int seatLimit = 120;
   bool isPaid = false;
-  int amt = 1;
+  int paidPrice = 1;
+  int totalRegisterations = 0;
+  String posterURL = "";
+  String chipLabel = 'Label';
+  String eventphoto = 'photo';
+  List<String> eventsDetails = ['one line', 'date', 'time', 'location', 'desc'];
 
   EventCard({
-    required this.eventName,
-    required this.clubName,
-    required this.chipLabel,
+    required this.type,
+    required this.topics,
+    required this.name,
+    required this.organiser,
+    required this.description,
+    required this.oneline,
+    required this.eventDatetime,
+    required this.duration,
+    required this.registerationRequired,
+    required this.seatLimit,
     required this.isPaid,
-    required this.posterUrl,
-    required this.amt,
-    required this.eventsDetails,
-
+    required this.paidPrice,
+    required this.totalRegisterations,
+    required this.posterURL,
   });
 
   @override
   Widget build(BuildContext context) {
+
     List<EventChip> eventChips = [
       EventChip(chipName: 'Paid', chipColor: Colors.red),
-      EventChip(chipName: '₹ $amt', chipColor: Colors.yellowAccent),
-      EventChip(chipName: '$chipLabel', chipColor: Colors.orange)
+      EventChip(chipName: '₹ $paidPrice', chipColor: Colors.yellowAccent),
     ];
+
+    for(int i=0; i<topics.length; ++i){
+      eventChips.add(EventChip(chipName: '${topics[i]}', chipColor: Colors.orange));
+    }
 
     if (isPaid == false) {
       eventChips.first.chipName = 'Free';
@@ -60,7 +87,7 @@ class EventCard extends StatelessWidget {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Expanded(
-                      child: Text('${eventName}',
+                      child: Text('${name} (${type})',
                           style: TextStyle(
                               color: Colors.white,
                               fontSize: 30,
@@ -70,7 +97,7 @@ class EventCard extends StatelessWidget {
                     Container(
                       height: 50,
                       child:
-                          Expanded(child: Image.asset('images/$clubName.png')),
+                          Expanded(child: Image.asset('images/$organiser.png')),
                     )
                   ],
                 ),
@@ -81,17 +108,22 @@ class EventCard extends StatelessWidget {
               Padding(
                 padding: const EdgeInsets.only(top: 12),
                 child: Row(
-                  children: [Text('${eventsDetails.first}', style: TextStyle(color: Colors.white, fontSize: 16),)],
+                  children: [
+                    Text(
+                      '${oneline}',
+                      style: TextStyle(color: Colors.white, fontSize: 16),
+                    )
+                  ],
                 ),
               ),
               SizedBox(
                 height: 20,
               ),
-              Container(child: Image(image: NetworkImage('$posterUrl'))),
+              Container(child: Image(image: NetworkImage('$posterURL'))),
               SizedBox(
                 height: 20,
               ),
-              EventText(eventDetail: eventsDetails),
+              EventText(desc: description, eventDatetime: eventDatetime),
               Padding(
                 padding: const EdgeInsets.symmetric(vertical: 20.0),
                 child: Row(
